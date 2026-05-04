@@ -1,0 +1,16 @@
+name: ticket monitor
+
+on:
+  schedule:
+    - cron: "*/1 * * * *"
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+
+      - name: run check
+        run: node check.js
