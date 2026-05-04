@@ -1,0 +1,32 @@
+const https = require("https");
+
+const url = "https://eipro.jp/takachiho1/eventCalendars/index";
+
+const targets = ["5/16", "5/17"];
+const keywords = ["○", "空", "予約可能"];
+
+https.get(url, (res) => {
+  let data = "";
+
+  res.on("data", chunk => data += chunk);
+
+  res.on("end", () => {
+    let found = false;
+
+    for (let d of targets) {
+      if (data.includes(d)) {
+        for (let k of keywords) {
+          if (data.includes(k)) {
+            found = true;
+          }
+        }
+      }
+    }
+
+    if (found) {
+      console.log("AVAILABLE");
+    } else {
+      console.log("NO");
+    }
+  });
+});
